@@ -63,30 +63,13 @@ Replace the <ExperimentName> with what you want to title the experiment. For exa
 
 If you have access to Slurm, you can also train model with it. For more information about how to use Slurm, please look at the information [here](https://github.com/uchicago-dsi/core-facility-docs/blob/main/slurm.md).
 
-To run this repo on the Slurm cluster after setting up your conda environment, you can use the following submit script to run a training loop:
-```
-#!/bin/bash -l
-#
-#SBATCH --mail-user=YOUR_USERNAME@cs.uchicago.edu
-#SBATCH --mail-type=ALL
-#SBATCH --output=/home/YOUR_USERNAME/slurm/out/%j.%N.stdout
-#SBATCH --error=/home/YOUR_USERNAME/slurm/out/%j.%N.stderr
-#SBATCH --chdir=/home/YOUR_USERNAME/slurm
-#SBATCH --partition=general
-#SBATCH --job-name=cmap
-#SBATCH --time=12:00:00
-#SBATCH --mem=128GB
-#SBATCH --gres=gpu:1
-#SBATCH --cpus-per-task=8
+This option is best if you know that your code runs and you don't need to test anything with it.
 
-source /home/YOUR_USERNAME/miniconda3/bin/activate cmap
+To run this repo on the Slurm cluster after setting up your conda environment,
 
-export PATH="/home/YOUR_USERNAME/miniconda/bin:$PATH"
-
-cd /home/YOUR_USERNAME/2024-winter-cmap
-
-python train.py configs.config --experiment_name <ExperimentName> --aug_type <aug> --split <split> --num_trial <num_trial>$SLURM_ARRAY_TASK_ID
-```
+1. Go into the file called 'submit.sh'.
+2. Change YOUR-USERNAME to your username. 
+3. To run the file on terminal, type: `sbatch submit.sh`. You can monitor whether your job is running with `squeue`.
 
 Or, to run in an interactive session:
 ```
